@@ -26,7 +26,11 @@ if CONFIG['safe_key'] == None:
     with open('/data/config.yml', 'w') as opened:
         yaml.dump(CONFIG, opened)
 
-print(CONFIG)
+
+
+print('URLs:', flush=True)
+print('https://' + CONFIG['domain'] + '/' + CONFIG['safe_key'] + '/sonarr', flush=True)
+print('https://' + CONFIG['domain'] + '/' + CONFIG['safe_key'] + '/radarr', flush=True)
 
 db_init()
 
