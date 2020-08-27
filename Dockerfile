@@ -20,7 +20,7 @@ COPY root/ /
 
 COPY app/ /app
 
-RUN pip install -r requirements.txt
+RUN pip install -r ./requirements.txt
 
 VOLUME /data
 
