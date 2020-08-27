@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv /bin/sh
+
+echo "[services.d] 02-notificator: Starting the app..."
+
+cd /app 
+
+python notificator.py

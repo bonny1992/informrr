@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv /bin/sh
+
+echo "[services.d] 01-webhook: Starting the webhooks..."
+
+cd /app 
+/usr/bin/gunicorn -b :5445 -w 4 main.app

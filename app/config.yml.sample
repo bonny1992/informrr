@@ -1,0 +1,8 @@
+skip_hours: 1 #Hours between notifications
+discord_webhook: #Unused for now
+telegram_bot_id: #TG Bot token
+telegram_chat_id: #TG Chat id
+safe_key: #Appended to the URL
+timezone: 'Europe/London' #Your timezone for the quiet time
+start_quiet: 9 #24h format
+end_quiet: 21 #24h format
