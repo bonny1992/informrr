@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM lsiobase/alpine:3.11
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-amd64.tar.gz /tmp/
 RUN gunzip -c /tmp/s6-overlay-amd64.tar.gz | tar -xf - -C /
