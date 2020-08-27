@@ -5,7 +5,6 @@ RUN gunzip -c /tmp/s6-overlay-amd64.tar.gz | tar -xf - -C /
 
 RUN echo "**** install dependencies ****" && \
     apk update && apk upgrade && \
-    apk add --no-cache bash git openssh python3 alpine-sdk build-base jpeg-dev zlib-dev libxml2-dev libxslt-dev && \
     if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
     \
     echo "**** install pip ****" && \
