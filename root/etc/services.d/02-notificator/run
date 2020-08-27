@@ -4,4 +4,4 @@ echo "[services.d] 02-notificator: Starting the app..."
 
 cd /app 
 
-python notificator.py
+python3 -u notificator.py
