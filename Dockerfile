@@ -4,7 +4,7 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-
 RUN gunzip -c /tmp/s6-overlay-amd64.tar.gz | tar -xf - -C /
 
 RUN echo "**** install dependencies ****" && \
-    apk add --no-cache python3 && \
+    apk add --no-cache python3 bash && \
     \
     echo "**** install pip ****" && \
     python3 -m ensurepip && \
