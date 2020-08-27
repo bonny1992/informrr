@@ -1,7 +1,7 @@
-#!/usr/bin/with-contenv /bin/sh
+#!/usr/bin/with-contenv
+
+bash cd /app || exit
 
 echo "[services.d] 02-notificator: Starting the app..."
 
-cd /app 
-
-python3 -u notificator.py
+exec \ s6-setuidgid abc python3 -u notificator.py

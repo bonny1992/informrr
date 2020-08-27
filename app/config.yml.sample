@@ -4,6 +4,6 @@ telegram_bot_token: #TG Bot token
 telegram_chat_id: #TG Chat id
 safe_key: #Appended to the URL
 timezone: 'Europe/London' #Your timezone for the quiet time
-start_quiet: 9 #24h format
-end_quiet: 21 #24h format
+start_quiet: 21 #24h format
+end_quiet: 9 #24h format
 domain: #Your domain to build the string
