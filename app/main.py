@@ -14,17 +14,22 @@ Path("/data").mkdir(parents=True, exist_ok=True)
 config_file = Path('/data/config.yml')
 
 if not config_file.is_file():
-    config_file_copy = Path('/data/config.yml.sample')
+    config_file_copy = Path('/app/config.yml.sample')
     shutil.copy(config_file_copy, config_file)
     sys.exit('Please compile /data/config.yml file')
 
 with open('/data/config.yml', 'r') as opened:
     CONFIG = yaml.load(opened, Loader=yaml.SafeLoader)
 
+
+
 if CONFIG['safe_key'] == None:
     CONFIG['safe_key'] = id_generator()
     with open('/data/config.yml', 'w') as opened:
         yaml.dump(CONFIG, opened)
+
+if CONFIG['telegram_bot_token'] == None:
+    sys.exit('Please compile /data/config.yml file')
 
 
 
