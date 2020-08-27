@@ -15,16 +15,11 @@ RUN echo "**** install dependencies ****" && \
     
 ENV LIBRARY_PATH=/lib:/usr/lib
 
-COPY root/ /
-
 COPY app/ /app
 
-COPY requirements.txt /requirements.txt
+RUN pip install -r /app/requirements.txt
 
-RUN pip install -r /requirements.txt
 
+COPY root/ /
 VOLUME /data
-
 EXPOSE 5445
-
-ENTRYPOINT ["/init"]
