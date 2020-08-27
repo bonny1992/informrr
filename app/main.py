@@ -31,12 +31,6 @@ if CONFIG['safe_key'] == None:
 if CONFIG['telegram_bot_token'] == None:
     sys.exit('Please compile /data/config.yml file')
 
-
-
-print('URLs:', flush=True)
-print('https://' + CONFIG['domain'] + '/' + CONFIG['safe_key'] + '/sonarr', flush=True)
-print('https://' + CONFIG['domain'] + '/' + CONFIG['safe_key'] + '/radarr', flush=True)
-
 db_init()
 
 app = Bottle()
