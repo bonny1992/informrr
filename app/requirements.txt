@@ -6,7 +6,6 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 peewee==3.13.3
-pyngrok==4.1.10
 pytz==2020.1
 PyYAML==5.3.1
 schedule==0.6.0
