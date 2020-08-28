@@ -4,21 +4,20 @@ import schedule
 from pytz import timezone
 from pathlib import Path
 from models import Show, Movie
+from utils import aprint, DATA_PATH
 
-logger    = logging.getLogger('NOTIFICATOR')
-
-config_file = Path('/data/config.yml')
+config_file = Path(DATA_PATH + '/config.yml')
 
 while True:
     if not config_file.is_file():
-        logger.info('Waiting 5 seconds for config file generation')
+        aprint('Waiting 5 seconds for config file generation', 'NOTIFICATOR')
         time.sleep(500)
     break
 
-with open('/data/config.yml', 'r') as opened:
+with open(DATA_PATH + '/config.yml', 'r') as opened:
     CONFIG = yaml.load(opened, Loader=yaml.SafeLoader)
 
-logger.info('Starting the notificator...')
+aprint('Starting the notificator...', 'NOTIFICATOR')
 
 current_tz = timezone(CONFIG['timezone'])
 
@@ -83,6 +82,8 @@ def send_tg_message():
     if msg == '':
         return
     quiet = False
+    if len(msg) > 4000:
+        msg = 'Troppi caratteri.\nN. episodi Serie TV importati: {}\nN. film importati: {}'.format(tv_n, mo_n)
     hour = int(datetime.datetime.now(current_tz).hour)
     if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
         quiet = True
@@ -94,10 +95,10 @@ def send_tg_message():
         QUIET = '&disable_notification=true' if quiet else '',
         MSG = urllib.parse.quote_plus(msg)
     )
-    logger.info(
+    aprint(
         'Sending notification to Telegram - No. of TV Series: {} - No. of Movies: {}'.format(
             tv_n, mo_n
-        )
+        ), 'NOTIFICATOR'
     )
     urlopen(TG_URL)
 

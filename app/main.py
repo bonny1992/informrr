@@ -5,35 +5,34 @@ from bottle import Bottle, run, route, request, abort, HTTPResponse
 from truckpad.bottle.cors import CorsPlugin, enable_cors
 
 from models import db_init, Show, Movie
+from utils import aprint, DATA_PATH
 
-logger = logging.getLogger('WEBHOOK.MAIN')
-mv_logger = logging.getLogger('WEBHOOK.MOVIE')
-tv_logger = logging.getLogger('WEBHOOK.TV')
+
 
 def id_generator(size=128, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
-Path("/data").mkdir(parents=True, exist_ok=True)
+Path(DATA_PATH).mkdir(parents=True, exist_ok=True)
 
-config_file = Path('/data/config.yml')
+config_file = Path(DATA_PATH + '/config.yml')
 
 if not config_file.is_file():
     config_file_copy = Path('/app/config.yml.sample')
     shutil.copy(config_file_copy, config_file)
-    sys.exit('Please compile /data/config.yml file')
+    sys.exit('Please compile ' + DATA_PATH + '/config.yml file')
 
-with open('/data/config.yml', 'r') as opened:
+with open(DATA_PATH + '/config.yml', 'r') as opened:
     CONFIG = yaml.load(opened, Loader=yaml.SafeLoader)
 
 
 
 if CONFIG['safe_key'] == None:
     CONFIG['safe_key'] = id_generator()
-    with open('/data/config.yml', 'w') as opened:
+    with open(DATA_PATH + '/config.yml', 'w') as opened:
         yaml.dump(CONFIG, opened)
 
 if CONFIG['telegram_bot_token'] == None:
-    sys.exit('Please compile /data/config.yml file')
+    sys.exit('Please compile ' + DATA_PATH + '/config.yml file')
 
 db_init()
 
@@ -81,7 +80,7 @@ def webhook_sonarr():
             quality = episode_data['QUALITY']
         )
         new_show.save()
-        tv_logger.info(msg)
+        aprint(msg, 'WEBHOOK.MOVIE')
     return HTTPResponse(status=200)
 
 @enable_cors
@@ -117,13 +116,13 @@ def webhook_radarr():
         imdb = movie_data['IMDB']
     )
     new_movie.save()
-    mv_logger.info(msg)
+    aprint(msg, 'WEBHOOK.TV')
     return HTTPResponse(status=200)
 
 app.install(CorsPlugin(origins=['*']))
 
 
 if __name__ == '__main__':
-    logger.info('Starting server on port 5445...')
+    aprint('Starting server on port 5445...', 'WEBHOOK.MAIN')
     from waitress import serve
     serve(app, listen='*:5445')
