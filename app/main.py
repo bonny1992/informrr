@@ -46,6 +46,7 @@ def index():
 @app.route('/'+CONFIG['safe_key']+'/sonarr', method='POST')
 def webhook_sonarr():
     if request.json['eventType'] == 'Test':
+        aprint('Received TEST webhook', 'WEBHOOK.MAIN')
         return HTTPResponse(status=200)
     if not request.json:
         error = {
@@ -87,6 +88,7 @@ def webhook_sonarr():
 @app.route('/'+CONFIG['safe_key']+'/radarr', method='POST')
 def webhook_radarr():
     if request.json['eventType'] == 'Test':
+        aprint('Received TEST webhook', 'WEBHOOK.MAIN')
         return HTTPResponse(status=200)
     if not request.json:
         error = {
