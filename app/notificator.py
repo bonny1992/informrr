@@ -16,7 +16,7 @@ while True:
         time.sleep(500)
     break
 
-with open('./config.yml', 'r') as opened:
+with open('/data/config.yml', 'r') as opened:
     CONFIG = yaml.load(opened, Loader=yaml.SafeLoader)
 
 current_tz = timezone(CONFIG['timezone'])
