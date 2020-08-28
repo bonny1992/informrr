@@ -1,8 +1,9 @@
-#!/usr/bin/with-contenv
+#!/usr/bin/with-contenv bash
 
-cd /app
+cd /app || exit
 
-echo "[services.d] 01-webhook: Starting the webhooks..."
+exec \
+	s6-setuidgid abc python3 -u print_urls.py
 
-s6-setuidgid abc python3 -u print_urls.py
-s6-setuidgid abc gunicorn -b :5445 -w 4 --access-logfile - main.app
+exec \
+    s6-setuidgid abc gunicorn -b :5445 -w 4 --access-logfile - main:app
