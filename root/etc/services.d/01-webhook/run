@@ -6,4 +6,4 @@ exec \
 	s6-setuidgid abc python3 -u print_urls.py
 
 exec \
-    s6-setuidgid abc gunicorn -b :5445 -w 4 --access-logfile - main:app
+    s6-setuidgid abc waitress-serve --port=5445 main:app
