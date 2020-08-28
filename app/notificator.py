@@ -8,7 +8,7 @@ from models import Show, Movie
 # time.sleep(500)
 # Path("/data").mkdir(parents=True, exist_ok=True)
 
-config_file = Path('./config.yml')
+config_file = Path('/data/config.yml')
 
 while True:
     if not config_file.is_file():
