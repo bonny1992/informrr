@@ -47,7 +47,7 @@ def create_shows_msg():
             SHOWS = eps_full_text
         )
         return len(eps), msg
-    return ''
+    return 0, ''
 
         
 def create_movies_msg():
@@ -73,7 +73,7 @@ def create_movies_msg():
             MOVIES = mvs_full_text
         )
         return len(mvs), msg
-    return ''
+    return 0, ''
 
 def send_tg_message():
     aprint('Preparing the notification...', 'NOTIFICATOR')
