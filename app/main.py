@@ -119,8 +119,6 @@ def webhook_radarr():
 app.install(CorsPlugin(origins=['*']))
 
 
-
-
-
 if __name__ == '__main__':
-    run(app, host='localhost', port=8080)
+    from waitress import serve
+    serve(app, listen='*:5445')

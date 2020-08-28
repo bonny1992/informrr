@@ -3,7 +3,4 @@
 cd /app || exit
 
 exec \
-	s6-setuidgid abc python3 -u print_urls.py
-
-exec \
-    s6-setuidgid abc waitress-serve --port=5445 main:app
+	s6-setuidgid abc python3 -u main.py
