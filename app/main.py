@@ -81,7 +81,7 @@ def webhook_sonarr():
             quality = episode_data['QUALITY']
         )
         new_show.save()
-        aprint(msg, 'WEBHOOK.MOVIE')
+        aprint(msg, 'WEBHOOK.TV')
     return HTTPResponse(status=200)
 
 @enable_cors
@@ -118,7 +118,7 @@ def webhook_radarr():
         imdb = movie_data['IMDB']
     )
     new_movie.save()
-    aprint(msg, 'WEBHOOK.TV')
+    aprint(msg, 'WEBHOOK.MOVIE')
     return HTTPResponse(status=200)
 
 app.install(CorsPlugin(origins=['*']))
