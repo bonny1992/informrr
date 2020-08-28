@@ -1,4 +1,4 @@
-import time, os, shutil, sys, string, random, pprint
+import time, os, shutil, sys, string, random, pprint, logging
 import yaml
 from pathlib import Path
 from bottle import Bottle, run, route, request, abort, HTTPResponse
@@ -6,8 +6,9 @@ from truckpad.bottle.cors import CorsPlugin, enable_cors
 
 from models import db_init, Show, Movie
 
-def printc(msg):
-    print('Webhook - ' + str(msg))
+logger = logging.getLogger('WEBHOOK.MAIN')
+mv_logger = logging.getLogger('WEBHOOK.MOVIE')
+tv_logger = logging.getLogger('WEBHOOK.TV')
 
 def id_generator(size=128, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -80,7 +81,7 @@ def webhook_sonarr():
             quality = episode_data['QUALITY']
         )
         new_show.save()
-        printc(msg)
+        tv_logger.info(msg)
     return HTTPResponse(status=200)
 
 @enable_cors
@@ -116,12 +117,13 @@ def webhook_radarr():
         imdb = movie_data['IMDB']
     )
     new_movie.save()
-    printc(msg)
+    mv_logger.info(msg)
     return HTTPResponse(status=200)
 
 app.install(CorsPlugin(origins=['*']))
 
 
 if __name__ == '__main__':
+    logger.info('Starting server on port 5445...')
     from waitress import serve
     serve(app, listen='*:5445')

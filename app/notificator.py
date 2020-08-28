@@ -1,23 +1,24 @@
-import time, urllib, yaml, datetime
+import time, urllib, yaml, datetime, logging
 from urllib.request import urlopen
 import schedule
 from pytz import timezone
 from pathlib import Path
 from models import Show, Movie
 
-def printc(msg):
-    print('Notify - ' + str(msg))
+logger    = logging.getLogger('NOTIFICATOR')
 
 config_file = Path('/data/config.yml')
 
 while True:
     if not config_file.is_file():
-        printc('Waiting 5 seconds for config file generation')
+        logger.info('Waiting 5 seconds for config file generation')
         time.sleep(500)
     break
 
 with open('/data/config.yml', 'r') as opened:
     CONFIG = yaml.load(opened, Loader=yaml.SafeLoader)
+
+logger.info('Starting the notificator...')
 
 current_tz = timezone(CONFIG['timezone'])
 
@@ -93,7 +94,7 @@ def send_tg_message():
         QUIET = '&disable_notification=true' if quiet else '',
         MSG = urllib.parse.quote_plus(msg)
     )
-    printc(
+    logger.info(
         'Sending notification to Telegram - No. of TV Series: {} - No. of Movies: {}'.format(
             tv_n, mo_n
         )
