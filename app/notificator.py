@@ -94,7 +94,7 @@ def send_tg_message():
         MSG = urllib.parse.quote_plus(msg)
     )
     printc(
-        'Sending notification to Telegram\No. of TV Series: {}\nNo. of Movies: {}'.format(
+        'Sending notification to Telegram - No. of TV Series: {} - No. of Movies: {}'.format(
             tv_n, mo_n
         )
     )
