@@ -84,7 +84,7 @@ def send_tg_message():
         return
     quiet = False
     if len(msg) > 4000:
-        msg = 'Troppi caratteri.\nN. episodi Serie TV importati: {}\nN. film importati: {}'.format(tv_n, mo_n)
+        msg = 'Troppi caratteri per Telegram.\nN. episodi Serie TV importati: {}\nN. film importati: {}'.format(tv_n, mo_n)
     hour = int(datetime.datetime.now(current_tz).hour)
     if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
         quiet = True
