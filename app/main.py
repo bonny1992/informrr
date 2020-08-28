@@ -65,7 +65,7 @@ def webhook_sonarr():
             'QUALITY': episode.get('quality', 'Unknown')
         }
 
-        msg = 'Download Show {SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY}'.format(
+        msg = '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY}'.format(
             SERIES = episode_data['SERIES'],
             SEASON = episode_data['SEASON'],
             EPISODE = episode_data['EPISODE'],
@@ -104,7 +104,7 @@ def webhook_radarr():
         'IMDB':movie['imdbId']
     }
     
-    msg = 'Download Movie {TITLE} ({YEAR}) | {QUALITY}'.format(
+    msg = '{TITLE} ({YEAR}) | {QUALITY}'.format(
         TITLE = movie_data['TITLE'],
         YEAR = movie_data['YEAR'],
         QUALITY = movie_data['QUALITY']
@@ -125,4 +125,4 @@ app.install(CorsPlugin(origins=['*']))
 if __name__ == '__main__':
     aprint('Starting server on port 5445...', 'WEBHOOK.MAIN')
     from waitress import serve
-    serve(app, listen='*:5445')
+    serve(app, listen='*:5445', _quiet=True)
