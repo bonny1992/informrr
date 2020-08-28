@@ -5,14 +5,14 @@ from pytz import timezone
 from pathlib import Path
 from models import Show, Movie
 
-# time.sleep(500)
-# Path("/data").mkdir(parents=True, exist_ok=True)
+def printc(msg):
+    print('Notify - ' + str(msg))
 
 config_file = Path('/data/config.yml')
 
 while True:
     if not config_file.is_file():
-        print('Waiting 5 seconds for config file generation')
+        printc('Waiting 5 seconds for config file generation')
         time.sleep(500)
     break
 
@@ -43,11 +43,10 @@ def create_shows_msg():
             )
             deletion.execute()
         eps_full_text = '\n'.join(eps)
-        print(eps)
         msg = msg.format(
             SHOWS = eps_full_text
         )
-        return msg
+        return len(eps), msg
     return ''
 
         
@@ -70,15 +69,16 @@ def create_movies_msg():
             )
             deletion.execute()
         mvs_full_text = '\n'.join(mvs)
-        print(mvs)
         msg = msg.format(
             MOVIES = mvs_full_text
         )
-        return msg
+        return len(mvs), msg
     return ''
 
 def send_tg_message():
-    msg = create_shows_msg() + create_movies_msg()
+    tv_n, tv_msg = create_shows_msg()
+    mo_n, mo_msg = create_movies_msg()
+    msg = tv_msg + mo_msg
     if msg == '':
         return
     quiet = False
@@ -93,7 +93,11 @@ def send_tg_message():
         QUIET = '&disable_notification=true' if quiet else '',
         MSG = urllib.parse.quote_plus(msg)
     )
-    print(TG_URL)
+    printc(
+        'Sending notification to Telegram\No. of TV Series: {}\nNo. of Movies: {}'.format(
+            tv_n, mo_n
+        )
+    )
     urlopen(TG_URL)
 
 schedule.every(int(CONFIG['skip_hours'])).hour.do(send_tg_message)
