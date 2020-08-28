@@ -76,6 +76,7 @@ def create_movies_msg():
     return ''
 
 def send_tg_message():
+    aprint('Preparing the notification...', 'NOTIFICATOR')
     tv_n, tv_msg = create_shows_msg()
     mo_n, mo_msg = create_movies_msg()
     msg = tv_msg + mo_msg
