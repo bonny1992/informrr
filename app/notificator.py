@@ -103,7 +103,7 @@ def send_tg_message():
     )
     urlopen(TG_URL)
 
-schedule.every(int(CONFIG['skip_hours'])).hour.do(send_tg_message)
+schedule.every(int(CONFIG['skip_hours'])).hour.at(':00').do(send_tg_message)
 
 while True:
     schedule.run_pending()
