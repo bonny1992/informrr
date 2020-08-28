@@ -1,7 +1,8 @@
 from peewee import *
 from pathlib import Path
+from utils import aprint, DATA_PATH
 
-db = SqliteDatabase('/data/notifications.db')
+db = SqliteDatabase(DATA_PATH + '/notifications.db')
 
 class BaseModel(Model):
     class Meta:
@@ -22,6 +23,6 @@ class Movie(BaseModel):
 
 
 def db_init():
-    if not Path('/data/notifications.db').is_file():
-        print('Database file not found, creating...')
+    if not Path(DATA_PATH + '/notifications.db').is_file():
+        aprint('Database file not found, creating...', 'WEBHOOK.MAIN')
         db.create_tables([Movie, Show])
