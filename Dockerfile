@@ -8,8 +8,7 @@ RUN echo "**** install dependencies ****" && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    rm -r /root/.cache
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
     
 COPY app/ /app
 
