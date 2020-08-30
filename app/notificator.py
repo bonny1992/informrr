@@ -23,7 +23,7 @@ current_tz = timezone(CONFIG['timezone'])
 
 def create_shows_msg():
     msg = '*Shows*\n\n{SHOWS}\n\n\n'
-    episodes = Show.select().order_by(Show.series)
+    episodes = Show.select().order_by(Show.series).order_by(Show.season).order_by(Show.episode)
     if len(episodes) > 0:
         eps = []
         for episode in episodes:
