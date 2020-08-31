@@ -11,6 +11,9 @@ config_file = Path(DATA_PATH + '/config.yml')
 def get_datetime(datetime_str):
     return datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S.%f%z')
 
+def get_hours_min(datetime_obj):
+    return datetime.datetime.strftime('%H:%M', datetime_obj)
+
 while True:
     if not config_file.is_file():
         aprint('Waiting 5 seconds for config file generation', 'NOTIFICATOR')
@@ -38,7 +41,7 @@ def create_shows_msg():
                     EPISODE = episode.episode,
                     TITLE = episode.title,
                     QUALITY = episode.quality,
-                    TIME = '{}:{}'.format(timestamp.hours, timestamp.minutes)
+                    TIME = get_hours_min(timestamp)
                 )
             )
             deletion = Show.delete().where(
@@ -68,7 +71,7 @@ def create_movies_msg():
                     YEAR = movie.year,
                     QUALITY = movie.quality,
                     IMDB_LINK = '[IMDB Link](https://www.imdb.com/title/{}/)'.format(movie.imdb),
-                    TIME = '{}:{}'.format(timestamp.hours, timestamp.minutes)
+                    TIME = get_hours_min(timestamp)
                 )
             )
             deletion = Movie.delete().where(
