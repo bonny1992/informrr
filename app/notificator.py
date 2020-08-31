@@ -85,6 +85,9 @@ def send_tg_message():
     if msg == '':
         return
     quiet = False
+    if len(msg) < 1:
+        aprint('Nothing to notify')
+        return
     if len(msg) > 4000:
         msg = 'Troppi caratteri per Telegram.\nN. episodi Serie TV importati: {}\nN. film importati: {}'.format(tv_n, mo_n)
     hour = int(datetime.datetime.now(current_tz).hour)
