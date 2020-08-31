@@ -34,7 +34,7 @@ def create_shows_msg():
                     EPISODE = episode.episode,
                     TITLE = episode.title,
                     QUALITY = episode.quality,
-                    TIME = '{}:{}'.format(datetime.datetime.fromtimestamp(episode.timestamp).hour, datetime.datetime.fromtimestamp(episode.timestamp).minute)
+                    TIME = '{}:{}'.format(episode.timestamp.hour, episode.timestamp.minutes)
                 )
             )
             deletion = Show.delete().where(
@@ -63,7 +63,7 @@ def create_movies_msg():
                     YEAR = movie.year,
                     QUALITY = movie.quality,
                     IMDB_LINK = '[IMDB Link](https://www.imdb.com/title/{}/)'.format(movie.imdb),
-                    TIME = '{}:{}'.format(datetime.datetime.fromtimestamp(episode.timestamp).hour, datetime.datetime.fromtimestamp(episode.timestamp).minute)
+                    TIME = '{}:{}'.format(movie.timestamp.hour, movie.timestamp.minutes)
                 )
             )
             deletion = Movie.delete().where(
