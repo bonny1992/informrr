@@ -8,6 +8,9 @@ from utils import aprint, DATA_PATH
 
 config_file = Path(DATA_PATH + '/config.yml')
 
+def get_datetime(datetime_str):
+    return datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S.%f %z')
+
 while True:
     if not config_file.is_file():
         aprint('Waiting 5 seconds for config file generation', 'NOTIFICATOR')
@@ -27,6 +30,7 @@ def create_shows_msg():
     if len(episodes) > 0:
         eps = []
         for episode in episodes:
+            timestamp = get_datetime(episode.timestamp)
             eps.append(
                 '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY} alle {TIME}'.format(
                     SERIES = episode.series,
@@ -34,7 +38,7 @@ def create_shows_msg():
                     EPISODE = episode.episode,
                     TITLE = episode.title,
                     QUALITY = episode.quality,
-                    TIME = '{}:{}'.format(episode.timestamp.hours, episode.timestamp.minutes)
+                    TIME = '{}:{}'.format(timestamp.hours, timestamp.minutes)
                 )
             )
             deletion = Show.delete().where(
@@ -57,13 +61,14 @@ def create_movies_msg():
     if len(movies) > 0:
         mvs = []
         for movie in movies:
+            timestamp = get_datetime(episode.timestamp)
             mvs.append(
                 '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK} alle {TIME}'.format(
                     TITLE = movie.title,
                     YEAR = movie.year,
                     QUALITY = movie.quality,
                     IMDB_LINK = '[IMDB Link](https://www.imdb.com/title/{}/)'.format(movie.imdb),
-                    TIME = '{}:{}'.format(movie.timestamp.hours, movie.timestamp.minutes)
+                    TIME = '{}:{}'.format(timestamp.hours, timestamp.minutes)
                 )
             )
             deletion = Movie.delete().where(
