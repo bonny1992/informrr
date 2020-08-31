@@ -9,7 +9,7 @@ from utils import aprint, DATA_PATH
 config_file = Path(DATA_PATH + '/config.yml')
 
 def get_datetime(datetime_str):
-    return datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S.%f %z')
+    return datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S.%f%z')
 
 while True:
     if not config_file.is_file():
@@ -61,7 +61,7 @@ def create_movies_msg():
     if len(movies) > 0:
         mvs = []
         for movie in movies:
-            timestamp = get_datetime(episode.timestamp)
+            timestamp = get_datetime(movie.timestamp)
             mvs.append(
                 '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK} alle {TIME}'.format(
                     TITLE = movie.title,
