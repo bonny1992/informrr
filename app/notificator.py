@@ -12,7 +12,7 @@ def get_datetime(datetime_str):
     return datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S.%f%z')
 
 def get_hours_min(datetime_obj):
-    return datetime.datetime.strftime('%H:%M', datetime_obj)
+    return datetime_obj.strftime('%H:%M')
 
 while True:
     if not config_file.is_file():
