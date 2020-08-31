@@ -28,12 +28,13 @@ def create_shows_msg():
         eps = []
         for episode in episodes:
             eps.append(
-                '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY}'.format(
+                '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY} alle {TIME}'.format(
                     SERIES = episode.series,
                     SEASON = episode.season,
                     EPISODE = episode.episode,
                     TITLE = episode.title,
-                    QUALITY = episode.quality
+                    QUALITY = episode.quality,
+                    TIME = '{}:{}'.format(episode.timestamp.hour, episode.timestamp.minute)
                 )
             )
             deletion = Show.delete().where(
@@ -57,11 +58,12 @@ def create_movies_msg():
         mvs = []
         for movie in movies:
             mvs.append(
-                '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK}'.format(
+                '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK} alle {TIME}'.format(
                     TITLE = movie.title,
                     YEAR = movie.year,
                     QUALITY = movie.quality,
                     IMDB_LINK = '[IMDB Link](https://www.imdb.com/title/{}/)'.format(movie.imdb)
+                    TIME = '{}:{}'.format(movie.timestamp.hour, movie.timestamp.minute)
                 )
             )
             deletion = Movie.delete().where(

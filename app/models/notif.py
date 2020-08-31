@@ -14,12 +14,14 @@ class Show(BaseModel):
     episode = TextField()
     title = TextField()
     quality = TextField()
+    timestamp = DateTimeField()
 
 class Movie(BaseModel):
     title = TextField()
     year = TextField()
     quality = TextField()
     imdb = TextField()
+    timestamp = DateTimeField()
 
 
 def db_init():

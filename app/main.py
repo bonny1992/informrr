@@ -1,8 +1,9 @@
-import time, os, shutil, sys, string, random, pprint, logging
+import time, os, shutil, sys, string, random, pprint, logging, datetime
 import yaml
 from pathlib import Path
 from bottle import Bottle, run, route, request, abort, HTTPResponse
 from truckpad.bottle.cors import CorsPlugin, enable_cors
+from pytz import timezone
 
 from models import db_init, Show, Movie
 from utils import aprint, DATA_PATH
@@ -37,6 +38,8 @@ if CONFIG['telegram_bot_token'] == None:
 db_init()
 
 app = Bottle()
+
+current_tz = timezone(CONFIG['timezone'])
 
 @app.route('/')
 def index():
@@ -78,7 +81,8 @@ def webhook_sonarr():
             season = episode_data['SEASON'],
             episode = episode_data['EPISODE'],
             title = episode_data['TITLE'],
-            quality = episode_data['QUALITY']
+            quality = episode_data['QUALITY'],
+            timestamp = datetime.datetime.now(current_tz)
         )
         new_show.save()
         aprint(msg, 'WEBHOOK.TV')
@@ -115,7 +119,8 @@ def webhook_radarr():
         title = movie_data['TITLE'],
         year = movie_data['YEAR'],
         quality = movie_data['QUALITY'],
-        imdb = movie_data['IMDB']
+        imdb = movie_data['IMDB'],
+        timestamp = datetime.datetime.now(current_tz)
     )
     new_movie.save()
     aprint(msg, 'WEBHOOK.MOVIE')
