@@ -35,7 +35,7 @@ def create_shows_msg():
         for episode in episodes:
             timestamp = get_datetime(episode.timestamp)
             eps.append(
-                '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY} alle {TIME}'.format(
+                CONFIG['custom_tv_entry'].format(
                     SERIES = episode.series,
                     SEASON = episode.season,
                     EPISODE = episode.episode,
@@ -66,7 +66,7 @@ def create_movies_msg():
         for movie in movies:
             timestamp = get_datetime(movie.timestamp)
             mvs.append(
-                '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK} alle {TIME}'.format(
+                CONFIG['custom_movie_entry'].format(
                     TITLE = movie.title,
                     YEAR = movie.year,
                     QUALITY = movie.quality,
@@ -97,11 +97,14 @@ def send_tg_message():
         aprint('Nothing to notify')
         return
     if len(msg) > 4000:
-        msg = 'Troppi caratteri per Telegram.\nN. episodi Serie TV importati: {}\nN. film importati: {}'.format(tv_n, mo_n)
+        msg = CONFIG['custom_too_long_message'].format(
+            N_TV = tv_n,
+            N_MOVIE = mo_n
+            )
     hour = int(datetime.datetime.now(current_tz).hour)
     if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
         quiet = True
-        msg = '💤 *Modalità notte* 💤\n\n\n\n' + msg
+        msg = CONFIG['custom_quiet_mode_message'] + msg
     TG_URL = 'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={TG_CHAT_ID}&disable_web_page_preview=true&parse_mode=Markdown{QUIET}&text={MSG}'
     TG_URL = TG_URL.format(
         BOT_TOKEN = CONFIG['telegram_bot_token'],
