@@ -62,7 +62,7 @@ def create_movies_msg():
                     TITLE = movie.title,
                     YEAR = movie.year,
                     QUALITY = movie.quality,
-                    IMDB_LINK = '[IMDB Link](https://www.imdb.com/title/{}/)'.format(movie.imdb)
+                    IMDB_LINK = '[IMDB Link](https://www.imdb.com/title/{}/)'.format(movie.imdb),
                     TIME = '{}:{}'.format(movie.timestamp.hour, movie.timestamp.minute)
                 )
             )
