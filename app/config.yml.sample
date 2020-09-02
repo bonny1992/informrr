@@ -7,7 +7,7 @@ timezone: 'Europe/London' #Your timezone for the quiet time
 start_quiet: 21 #24h format
 end_quiet: 9 #24h format
 domain: #Your domain to build the string
-custom_quiet_mode_message: '💤 *Modalità notte* 💤 \n\n' #Custom header for messages during quiet mode
+custom_quiet_mode_message: '💤 *Modalità notte* 💤' #Custom header for messages during quiet mode
 custom_tv_entry: '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY} alle {TIME}' #Custom entry for TV episodes, available placeholders `SERIES` (Series name) `SEASON` (Season number - format 01) `EPISODE` (Episode number - Format 01) `TITLE` (Title of the episode) `QUALITY` (Quality of the episode downloaded) `TIME` (Time of the received notification)
 custom_movie_entry: '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK} alle {TIME}' #Custom entry for Movies, available placeholders `TITLE` (Movie title) `YEAR` (Movie year) `QUALITY` (Movie quality) `IMDB_LINK` (Movie IMDB link) `TIME` (Time of the received notification)
 custom_too_long_message: 'Troppi caratteri per Telegram.\nN. episodi Serie TV importati: {N_TV}\nN. film importati: {N_MOVIE}' #Custom message for too many characters (MAX 4000), available placeholders `N_TV` (Number of episodes downloaded) `N_MOVIE` (Number of movies downloaded)

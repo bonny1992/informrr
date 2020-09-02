@@ -104,7 +104,7 @@ def send_tg_message():
     hour = int(datetime.datetime.now(current_tz).hour)
     if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
         quiet = True
-        msg = CONFIG['custom_quiet_mode_message'] + msg
+        msg = CONFIG['custom_quiet_mode_message'] + '\n\n' + msg
     TG_URL = 'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={TG_CHAT_ID}&disable_web_page_preview=true&parse_mode=Markdown{QUIET}&text={MSG}'
     TG_URL = TG_URL.format(
         BOT_TOKEN = CONFIG['telegram_bot_token'],
