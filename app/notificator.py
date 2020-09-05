@@ -128,10 +128,7 @@ def send_discord_message():
     if 'slack' not in DISCORD_URL:
         DISCORD_URL = DISCORD_URL + '/slack'
     cond = {
-        'text': {
-            'text': msg,
-            'type': 'mrkdwn'
-        }
+        'text': msg
     }
     requests.post(DISCORD_URL, data=cond)
 
