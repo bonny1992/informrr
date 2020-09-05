@@ -76,7 +76,7 @@ def create_movies_msg():
     return 0, ''
 
 def send_tg_message():
-    aprint('Preparing the notification...', 'NOTIFICATOR')
+    aprint('Preparing the notification for Telegram...', 'NOTIFICATOR')
     tv_n, tv_msg = create_shows_msg()
     mo_n, mo_msg = create_movies_msg()
     msg = tv_msg + mo_msg
@@ -110,7 +110,7 @@ def send_tg_message():
     urlopen(TG_URL)
 
 def send_discord_message():
-    aprint('Preparing the notification...', 'NOTIFICATOR')
+    aprint('Preparing the notification for Discord...', 'NOTIFICATOR')
     tv_n, tv_msg = create_shows_msg()
     mo_n, mo_msg = create_movies_msg()
     msg = tv_msg + mo_msg
