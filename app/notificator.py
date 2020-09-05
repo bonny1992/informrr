@@ -1,5 +1,5 @@
-import time, urllib, yaml, datetime, logging
-from urllib.request import urlopen
+import time, urllib, yaml, datetime, logging, json
+from urllib.request import urlopen, Request
 import schedule
 from pytz import timezone
 from pathlib import Path
@@ -44,12 +44,6 @@ def create_shows_msg():
                     TIME = get_hours_min(timestamp)
                 )
             )
-            deletion = Show.delete().where(
-                Show.series == episode.series,
-                Show.season == episode.season,
-                Show.episode == episode.episode
-            )
-            deletion.execute()
         eps_full_text = '\n'.join(eps)
         msg = msg.format(
             SHOWS = eps_full_text
@@ -74,10 +68,6 @@ def create_movies_msg():
                     TIME = get_hours_min(timestamp)
                 )
             )
-            deletion = Movie.delete().where(
-                Movie.imdb == movie.imdb,
-            )
-            deletion.execute()
         mvs_full_text = '\n'.join(mvs)
         msg = msg.format(
             MOVIES = mvs_full_text
@@ -119,8 +109,67 @@ def send_tg_message():
     )
     urlopen(TG_URL)
 
+def send_discord_message():
+    aprint('Preparing the notification...', 'NOTIFICATOR')
+    tv_n, tv_msg = create_shows_msg()
+    mo_n, mo_msg = create_movies_msg()
+    msg = tv_msg + mo_msg
+    if msg == '':
+        return
+    if len(msg) < 1:
+        aprint('Nothing to notify')
+        return
+    if len(msg) > 2000:
+        msg = CONFIG['custom_too_long_message'].format(
+            N_TV = tv_n,
+            N_MOVIE = mo_n
+            )
+    DISCORD_URL = CONFIG['discord_webhook']
+    cond = {
+        'content': msg,
+        'username': 'Notificator'
+    }
+    params = json.dumps(cond).encode('utf-8')
+    req = Request(DISCORD_URL, data=params, headers={'content-type': 'application/json'})
+    reply = urlopen(req)
+    return reply
+
+def db_cleanup():
+    # Movie cleanup
+    aprint('Cleaning up movies...', 'NOTIFICATOR')
+    movies = Movie.select().order_by(Movie.title)
+    n_movies = len(movies)
+    for movie in movies:
+        deletion = Movie.delete().where(
+                Movie.imdb == movie.imdb,
+            )
+        deletion.execute()
+    aprint('Deleted {} movies.'.format(n_movies), 'NOTIFICATOR')
+
+    # TV cleanup
+    aprint('Cleaning up tv shows...', 'NOTIFICATOR')
+    episodes = Show.select().order_by(Show.series).order_by(Show.season).order_by(Show.episode)
+    n_episodes = len(episodes)
+    for episode in episodes:
+        deletion = Show.delete().where(
+                Show.series == episode.series,
+                Show.season == episode.season,
+                Show.episode == episode.episode
+            )
+        deletion.execute()
+    aprint('Deleted {} episodes.'.format(n_episodes), 'NOTIFICATOR')
+
+def send_messages():
+    if CONFIG['telegram_bot_token'] != '':
+        send_tg_message()
+    if CONFIG['discord_webhook'] != '':
+        send_discord_message()
+    db_cleanup()
+    
+
+
 if __name__ == '__main__':
-    schedule.every(int(CONFIG['skip_hours'])).hour.at(':00').do(send_tg_message)
+    schedule.every(int(CONFIG['skip_hours'])).hour.at(':00').do(send_messages)
     while True:
         schedule.run_pending()
         time.sleep(1)
