@@ -125,9 +125,13 @@ def send_discord_message():
             N_MOVIE = mo_n
             )
     DISCORD_URL = CONFIG['discord_webhook']
+    if 'slack' not in DISCORD_URL:
+        DISCORD_URL = DISCORD_URL + '/slack'
     cond = {
-        'content': msg,
-        'username': 'Notificator'
+        'text': {
+            'text': msg,
+            'type': 'mrkdwn'
+        }
     }
     params = json.dumps(cond).encode('utf-8')
     req = Request(DISCORD_URL, data=params, headers={'content-type': 'application/json'})
