@@ -1,5 +1,5 @@
 import time, urllib, yaml, datetime, logging, json
-from urllib.request import urlopen, Request
+import requests
 import schedule
 from pytz import timezone
 from pathlib import Path
@@ -107,7 +107,7 @@ def send_tg_message():
             tv_n, mo_n
         ), 'NOTIFICATOR'
     )
-    urlopen(TG_URL)
+    requests.get(TG_URL)
 
 def send_discord_message():
     aprint('Preparing the notification for Discord...', 'NOTIFICATOR')
@@ -133,10 +133,7 @@ def send_discord_message():
             'type': 'mrkdwn'
         }
     }
-    params = json.dumps(cond).encode('utf-8')
-    req = Request(DISCORD_URL, data=params, headers={'content-type': 'application/json'})
-    reply = urlopen(req)
-    return reply
+    requests.post(DISCORD_URL, data=cond)
 
 def db_cleanup():
     # Movie cleanup
