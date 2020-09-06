@@ -32,6 +32,13 @@ if CONFIG['safe_key'] == None:
     with open(DATA_PATH + '/config.yml', 'w') as opened:
         yaml.dump(CONFIG, opened)
 
+with open (DATA_PATH + '/url.txt', 'w') as opened:
+    opened.write(
+        '{DOMAIN}{KEY}'.format(
+            DOMAIN = CONFIG['domain'] if CONFIG['domain'].endswith('/') else CONFIG['domain'] + '/',
+            KEY    = CONFIG['safe_key']
+        ))
+
 if CONFIG['telegram_bot_token'] == None:
     sys.exit('Please compile ' + DATA_PATH + '/config.yml file')
 
