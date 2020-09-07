@@ -158,11 +158,16 @@ def db_cleanup():
     aprint('Deleted {} episodes.'.format(n_episodes), 'NOTIFICATOR')
 
 def send_messages():
-    if CONFIG['telegram_bot_token'] != '':
+    if CONFIG['telegram_bot_token']:
+        aprint('Telegram is enabled.', 'NOTIFICATOR')
         send_tg_message()
-    if CONFIG['discord_webhook'] != '':
+    if CONFIG['discord_webhook']:
+        aprint('Discord is enabled.', 'NOTIFICATOR')
         send_discord_message()
-    db_cleanup()
+    try:
+        db_cleanup()
+    except:
+        aprint('There was an error cleaning the database. Please contact support.', 'NOTIFICATOR')
     
 
 

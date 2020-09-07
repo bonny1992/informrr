@@ -32,26 +32,29 @@ if CONFIG['safe_key'] == None:
     with open(DATA_PATH + '/config.yml', 'w') as opened:
         yaml.dump(CONFIG, opened)
 
-with open (DATA_PATH + '/url.txt', 'w') as opened:
-    if CONFIG['domain'].startswith('http://'):
-        sys.exit('Your domain should be https://')
-    if not CONFIG['domain'].startswith('https://'):
-        CONFIG['domain'] = 'https://' + CONFIG['domain']
-    if not CONFIG['domain'].endswith('/'):
-        CONFIG['domain'] = CONFIG['domain'] + '/'
-    opened.write(
-        '{DOMAIN}{KEY}/sonarr\n'.format(
-            DOMAIN = CONFIG['domain'],
-            KEY = CONFIG['safe_key']
-        ))
-    opened.write(
-        '{DOMAIN}{KEY}/radarr'.format(
-            DOMAIN = CONFIG['domain'],
-            KEY = CONFIG['safe_key']
-        ))
+if CONFIG['enable_telegram'] == False and CONFIG['enable_discord'] == False:
+    sys.exit('Please compile ' + DATA_PATH + '/config.yml file, as it needs to have at least one of Telegram or Discord enabled.')
 
-if CONFIG['telegram_bot_token'] == None:
-    sys.exit('Please compile ' + DATA_PATH + '/config.yml file')
+if CONFIG['domain'] == None:
+    sys.exit('You have to enter your domain.')
+else:
+    with open (DATA_PATH + '/url.txt', 'w') as opened:
+        if CONFIG['domain'].startswith('http://'):
+            sys.exit('Your domain should be https://')
+        if not CONFIG['domain'].startswith('https://'):
+            CONFIG['domain'] = 'https://' + CONFIG['domain']
+        if not CONFIG['domain'].endswith('/'):
+            CONFIG['domain'] = CONFIG['domain'] + '/'
+        opened.write(
+            '{DOMAIN}{KEY}/sonarr\n'.format(
+                DOMAIN = CONFIG['domain'],
+                KEY = CONFIG['safe_key']
+            ))
+        opened.write(
+            '{DOMAIN}{KEY}/radarr'.format(
+                DOMAIN = CONFIG['domain'],
+                KEY = CONFIG['safe_key']
+            ))
 
 db_init()
 
