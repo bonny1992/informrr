@@ -129,8 +129,9 @@ You can, however, install this without the use of Docker (though I did not test 
 I'm assuming you will use Linux - I used Fedora Remix on Windows' WSL
 - Python 3 (I used 3.8 but I believe any recent version of 3 would work)
 - Pip
-- Knowledge with systemd; or
+- Knowledge with systemd or
 - Tmux or similar software
+- Some way to reverse proxy it, I personally use nginx-proxy with Letsencrypt on Docker, but you could use Caddy or whatever you want.
 
 ### Steps
 
