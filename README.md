@@ -1,5 +1,5 @@
 # Sonarr Radarr Notification Aggregator
-(name suggestions open)
+(name suggestions open - [Link to poll on strawpoll.com](https://strawpoll.com/7qdy18a4y))
 
 [![Build Status](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator.svg?branch=master)](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator)
 
