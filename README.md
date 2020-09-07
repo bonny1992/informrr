@@ -185,6 +185,7 @@ I still haven't tested this with Vagrant, sorry.
 
 # To do
 - Eh honestly a better error handling, right now it's pretty _large_.
+- Lidarr support
 - More entry customization
 - Maybe a web page for customizing things?
 - I'm accepting suggestions :D
