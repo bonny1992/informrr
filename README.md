@@ -11,6 +11,13 @@ What can it do:
 - Notification to Telegram
 - Notification to Discord
 
+## Screenshots
+
+| Logs | Telegram | Discord |
+| ---- | -------- | ------- |
+|[![Docker logs](https://i.imgur.com/8BKmDA4.png)](https://i.imgur.com/8BKmDA4.png) | [![Example notification on Telegram](https://i.imgur.com/1YfKwtK.png)](https://i.imgur.com/1YfKwtK.png) | [![Example notification on Discord](https://i.imgur.com/QCe3oxx.png)](https://i.imgur.com/QCe3oxx.png) |
+(click on screenshot to enlarge)
+
 
 
 # Install with Docker
@@ -175,6 +182,13 @@ So feel like to contribute as you like!
 
 ### Vagrant
 I still haven't tested this with Vagrant, sorry.
+
+# To do
+- Eh honestly a better error handling, right now it's pretty _large_.
+- More entry customization
+- Maybe a web page for customizing things?
+- I'm accepting suggestions :D
+___
 
 # Final thoughs
 I wrote this as I grew tired of the too many notifications I received when using Sonarr and Radarr, I hope you will find this useful too, even if it's not exactly polished or even... Good!
