@@ -56,8 +56,10 @@ You can find the image on Docker Hub [here](https://hub.docker.com/r/bonny1992/s
 
 | Key | Content |
 | ------- | ------- |
+| enable_telegram | You can enable or disable Telegram notifications here |
+| enable_discord | You can enable or disable Discord notifications here |
 | skip_hours | Time between one notification and the next one (in hours) |
-| discord_webhook | (Standard) Discord webhook (you can leave it empty to disable Discord notifications) |
+| discord_webhook | (Standard) Discord webhook |
 | telegram_bot_token | Telegram bot token (Obtained from BotFather bot) |
 | telegram_chat_id | Telegram chat id of where you want the notificator to sends messages to |
 | safe_key | Safe key generated if empty or first run. You can however customize it how you please (I think, I did not try). |
