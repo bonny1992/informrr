@@ -48,7 +48,7 @@ You can find the image on Docker Hub [here](https://hub.docker.com/repository/do
    docker start notificator
    ```
 
-4. That's it, you can configure the webhook in Sonarr and Radarr with the url you will find in you `/some/folder/to/store/your/data` folder in the file `url.txt`.
+4. That's it, you can configure the webhook in Sonarr and Radarr with the url you will find in the `/some/folder/to/store/your/data` folder in the file `url.txt`.
 
 # Config file
 
