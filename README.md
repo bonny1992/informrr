@@ -16,6 +16,8 @@ What can it do:
 # Install with Docker
 I mainly chose to create this to be used with Docker.
 
+Made with the wonderful `lsiobase/alpine` as a base image.
+
 You can find the image on Docker Hub [here](https://hub.docker.com/r/bonny1992/sonarr-radarr-notification-aggregator)
 
 1. Here's the `docker run` command needed to start it up:
