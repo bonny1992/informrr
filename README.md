@@ -1,5 +1,5 @@
 # Sonarr Radarr Notification Aggregator
-(name suggesions open)
+(name suggestions open)
 
 ![TravisCI.com build status](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator.svg?branch=master&status=passed "TravisCI.com build status")
 
