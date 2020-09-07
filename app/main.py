@@ -40,7 +40,12 @@ with open (DATA_PATH + '/url.txt', 'w') as opened:
     if not CONFIG['domain'].endswith('/'):
         CONFIG['domain'] = CONFIG['domain'] + '/'
     opened.write(
-        '{DOMAIN}{KEY}'.format(
+        '{DOMAIN}{KEY}/sonarr\n'.format(
+            DOMAIN = CONFIG['domain'],
+            KEY = CONFIG['safe_key']
+        ))
+    opened.write(
+        '{DOMAIN}{KEY}/radarr'.format(
             DOMAIN = CONFIG['domain'],
             KEY = CONFIG['safe_key']
         ))
@@ -61,17 +66,25 @@ def index():
 @enable_cors
 @app.route('/'+CONFIG['safe_key']+'/sonarr', method='POST')
 def webhook_sonarr():
-    if request.json['eventType'] == 'Test':
-        aprint('Received TEST webhook', 'WEBHOOK.MAIN')
-        return HTTPResponse(status=200)
-    if not request.json:
+    try:
+        if request.json['eventType'] == 'Test':
+            aprint('Received TEST webhook', 'WEBHOOK.MAIN')
+            return HTTPResponse(status=200)
+        if not request.json:
+            error = {
+                'error': 'Request JSON not correct',
+                'code': 10,
+            }
+            return HTTPResponse(status=500, body=error)
+        webhook_request = request.json
+        episodes = webhook_request['episodes']
+    except:
         error = {
-            'error': 'Request JSON not correct',
-            'code': 10,
-        }
+                'error': 'Request JSON not correct',
+                'code': 10,
+            }
         return HTTPResponse(status=500, body=error)
-    webhook_request = request.json
-    episodes = webhook_request['episodes']
+    
     
     for episode in episodes:
         episode_data = {
@@ -104,18 +117,25 @@ def webhook_sonarr():
 @enable_cors
 @app.route('/'+CONFIG['safe_key']+'/radarr', method='POST')
 def webhook_radarr():
-    if request.json['eventType'] == 'Test':
-        aprint('Received TEST webhook', 'WEBHOOK.MAIN')
-        return HTTPResponse(status=200)
-    if not request.json:
+    try:
+        if request.json['eventType'] == 'Test':
+            aprint('Received TEST webhook', 'WEBHOOK.MAIN')
+            return HTTPResponse(status=200)
+        if not request.json:
+            error = {
+                'error': 'Request JSON not correct',
+                'code': 10,
+            }
+            return HTTPResponse(status=500, body=error)
+        webhook_request = request.json
+        movie = webhook_request['remoteMovie']
+    except:
         error = {
-            'error': 'Request JSON not correct',
-            'code': 10,
-        }
+                'error': 'Request JSON not correct',
+                'code': 10,
+            }
         return HTTPResponse(status=500, body=error)
-    webhook_request = request.json
-    movie = webhook_request['remoteMovie']
-
+    
     movie_data = {
         'TITLE': movie['title'],
         'YEAR': movie['year'],
@@ -144,5 +164,7 @@ app.install(CorsPlugin(origins=['*']))
 
 if __name__ == '__main__':
     aprint('Starting server on port 5445...', 'WEBHOOK.MAIN')
+    aprint('Listening on endpoint /{KEY}/sonarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
+    aprint('Listening on endpoint /{KEY}/radarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
     from waitress import serve
     serve(app, listen='*:5445', _quiet=True)
