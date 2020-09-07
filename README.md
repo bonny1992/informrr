@@ -168,6 +168,9 @@ I have a very little experience with git or GitHub, as I use this majorly as a "
 
 So feel like to contribute as you like!
 
+### Vagrant
+I still haven't tested this with Vagrant, sorry.
+
 # Final thoughs
 I wrote this as I grew tired of the too many notifications I received when using Sonarr and Radarr, I hope you will find this useful too, even if it's not exactly polished or even... Good!
 
