@@ -33,9 +33,15 @@ if CONFIG['safe_key'] == None:
         yaml.dump(CONFIG, opened)
 
 with open (DATA_PATH + '/url.txt', 'w') as opened:
+    if CONFIG['domain'].startswith('http://'):
+        sys.exit('Your domain should be https://')
+    if not CONFIG['domain'].startswith('https://'):
+        CONFIG['domain'] = 'https://' + CONFIG['domain']
+    if not CONFIG['domain'].endswith('/'):
+        CONFIG['domain'] = CONFIG['domain'] + '/'
     opened.write(
         '{DOMAIN}{KEY}'.format(
-            DOMAIN = CONFIG['domain'] if CONFIG['domain'].endswith('/') else CONFIG['domain'] + '/',
+            DOMAIN = CONFIG['domain']
             KEY    = CONFIG['safe_key']
         ))
 
