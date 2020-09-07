@@ -1,7 +1,7 @@
 # Sonarr Radarr Notification Aggregator
 (name suggestions open)
 
-![TravisCI.com build status](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator.svg?branch=master&status=passed "TravisCI.com build status")
+[![Build Status](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator.svg?branch=master)](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator)
 
 A simple aggregator for notification from Sonarr and Radarr.
 
