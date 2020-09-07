@@ -41,7 +41,7 @@ with open (DATA_PATH + '/url.txt', 'w') as opened:
         CONFIG['domain'] = CONFIG['domain'] + '/'
     opened.write(
         '{DOMAIN}{KEY}'.format(
-            DOMAIN = CONFIG['domain']
+            DOMAIN = CONFIG['domain'],
             KEY = CONFIG['safe_key']
         ))
 
