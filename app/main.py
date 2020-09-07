@@ -42,7 +42,7 @@ with open (DATA_PATH + '/url.txt', 'w') as opened:
     opened.write(
         '{DOMAIN}{KEY}'.format(
             DOMAIN = CONFIG['domain']
-            KEY    = CONFIG['safe_key']
+            KEY = CONFIG['safe_key']
         ))
 
 if CONFIG['telegram_bot_token'] == None:
