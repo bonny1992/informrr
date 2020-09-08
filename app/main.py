@@ -5,7 +5,7 @@ from bottle import Bottle, run, route, request, abort, HTTPResponse
 from truckpad.bottle.cors import CorsPlugin, enable_cors
 from pytz import timezone
 
-from models import db_init, Show, Movie
+from models import db_init, Show, Movie, Track
 from utils import aprint, DATA_PATH
 
 
@@ -51,7 +51,12 @@ else:
                 KEY = CONFIG['safe_key']
             ))
         opened.write(
-            '{DOMAIN}{KEY}/radarr'.format(
+            '{DOMAIN}{KEY}/radarr\n'.format(
+                DOMAIN = CONFIG['domain'],
+                KEY = CONFIG['safe_key']
+            ))
+        opened.write(
+            '{DOMAIN}{KEY}/lidarr'.format(
                 DOMAIN = CONFIG['domain'],
                 KEY = CONFIG['safe_key']
             ))
@@ -162,12 +167,62 @@ def webhook_radarr():
     aprint(msg, 'WEBHOOK.MOVIE')
     return HTTPResponse(status=200)
 
+@enable_cors
+@app.route('/'+CONFIG['safe_key']+'/lidarr', method='POST')
+def webhook_lidarr():
+    try:
+        if request.json['eventType'] == 'Test':
+            aprint('Received TEST webhook', 'WEBHOOK.MAIN')
+            return HTTPResponse(status=200)
+        if not request.json:
+            error = {
+                'error': 'Request JSON not correct',
+                'code': 10,
+            }
+            return HTTPResponse(status=500, body=error)
+        # pprint.pprint(request.json)
+        webhook_request = request.json
+        artist = webhook_request['artist']['name']
+        tracks = webhook_request['tracks']
+    except Exception as e:
+        error = {
+                'error': 'Request JSON not correct',
+                'code': 10,
+                'stack_trace': str(e)
+            }
+        return HTTPResponse(status=500, body=error)
+    for track in tracks:
+        track_data = {
+            'ARTIST': artist,
+            'TITLE': track['title'],
+            'TRACK_NUMBER': track['trackNumber'],
+            'QUALITY': track['quality']
+        }
+        msg = '{ARTIST} - {TITLE} ({TRACK_NUMBER}) | {QUALITY}'.format(
+            ARTIST = track_data['ARTIST'],
+            TITLE = track_data['TITLE'],
+            TRACK_NUMBER = track_data['TRACK_NUMBER'],
+            QUALITY = track_data['QUALITY']
+        )
+        new_track = Track(
+            artist = track_data['ARTIST'],
+            title = track_data['TITLE'],
+            tracknumber = track_data['TRACK_NUMBER'],
+            quality = track_data['QUALITY'],
+            timestamp = datetime.datetime.now(current_tz)
+        )
+        new_track.save()
+        aprint(msg, 'WEBHOOK.MUSIC')
+    return HTTPResponse(status=200)
+
 app.install(CorsPlugin(origins=['*']))
+
 
 
 if __name__ == '__main__':
     aprint('Starting server on port 5445...', 'WEBHOOK.MAIN')
     aprint('Listening on endpoint /{KEY}/sonarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
     aprint('Listening on endpoint /{KEY}/radarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
+    aprint('Listening on endpoint /{KEY}/lidarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
     from waitress import serve
     serve(app, listen='*:5445', _quiet=True)

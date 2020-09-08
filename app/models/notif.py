@@ -23,8 +23,21 @@ class Movie(BaseModel):
     imdb = TextField()
     timestamp = DateTimeField()
 
+class Track(BaseModel):
+    artist = TextField()
+    title = TextField()
+    quality = TextField()
+    tracknumber = TextField()
+    timestamp = DateTimeField()
 
 def db_init():
-    if not Path(DATA_PATH + '/notifications.db').is_file():
-        aprint('Database file not found, creating...', 'WEBHOOK.MAIN')
-        db.create_tables([Movie, Show])
+    tables = db.get_tables()
+    if 'movie' not in tables:
+        aprint('`Movie` table not found in db, adding...', 'WEBHOOK.MAIN')
+        db.create_tables([Movie])
+    if 'show' not in tables:
+        aprint('`Show` table not found in db, adding...', 'WEBHOOK.MAIN')
+        db.create_tables([Show])
+    if 'track' not in tables:
+        aprint('`Track` table not found in db, adding...', 'WEBHOOK.MAIN')
+        db.create_tables([Track])

@@ -1,2 +1,2 @@
-from models.notif import Show, Movie, db_init
+from models.notif import Show, Movie, Track, db_init
 from pathlib import Path

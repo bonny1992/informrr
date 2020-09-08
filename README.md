@@ -77,7 +77,8 @@ You can find the image on Docker Hub [here](https://hub.docker.com/r/bonny1992/s
 | custom_quiet_mode_message | You can customize the header of the quiet mode message here. Example: `SILENT NOTIFICATION HERE!` (Works only with Telegram) |
 | custom_tv_entry | Customizable TV episode entry. Available keys: `{SERIES}`, `{SEASON}`, `{EPISODE}`, `{TITLE}`, `{QUALITY}`, `{TIME}`. See below for explaination and examples. |
 | custom_movie_entry | Customizable movie entry. Available keys: `{TITLE}`, `{YEAR}`, `{QUALITY}`, `{IMDB_LINK}`, `{TIME}`. See below for explaination and examples. |
-| custom_too_long_message | Customizable message for when the message is too long (Max 4000 characters for Telegram and 2000 for Discord). Available keys: `{N_TV}`, `{N_MOVIE}`. See below for explaination and examples. |
+| custom_track_entry | Customizable track entry. Available keys: `{ARTIST}`, `{TITLE}`, `{TRACK_NUMBER}`, `{QUALITY}`, `{TIME}`. See below for explaination and examples. |
+| custom_too_long_message | Customizable message for when the message is too long (Max 4000 characters for Telegram and 2000 for Discord). Available keys: `{N_TV}`, `{N_MOVIE}`, `{N_TRACK}`. See below for explaination and examples. |
 
 
 ## Custom TV entry keys
@@ -126,6 +127,29 @@ Which, will result like this, in Telegram and Discord:
 
 08:30 - The Godfather (1972) - Blueray-1008p - [IMDB Link](https://www.imdb.com/title/tt0068646/)
 
+
+You can also customize it with Markdown syntax (please refer to Telegram and Discord documentation).
+
+## Custom track entry keys
+
+| Key | Content | Example |
+| --- | --- | --- |
+| `{ARTIST}`  | Name of the musician.                         | `Red Hot Chili Peppers`                     |
+| `{TRACK_NUMBER}`  | Two characters long number of the track on the release.             | `A1`                          |
+| `{TITLE}` | Title of the track.            | `Around the World`                          |
+
+| `{QUALITY}` | Quality of the track.                     | `FLAC`                   |
+| `{TIME}`    | Time (`hh:mm`) of the received notification | `08:30` |
+
+Let's say we write a custom entry like this:
+```
+{TIME} - {ARTIST} - {TRACK_NUMBER} - {TITLE} | {QUALITY}
+```
+
+Using the same examples as above, we get:
+```
+08:30 - Red Hot Chili Peppers - A1 - Around the World - FLAC
+```
 
 You can also customize it with Markdown syntax (please refer to Telegram and Discord documentation).
 

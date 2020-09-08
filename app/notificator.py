@@ -3,7 +3,7 @@ import requests
 import schedule
 from pytz import timezone
 from pathlib import Path
-from models import Show, Movie
+from models import Show, Movie, Track
 from utils import aprint, DATA_PATH
 
 config_file = Path(DATA_PATH + '/config.yml')
@@ -75,11 +75,35 @@ def create_movies_msg():
         return len(mvs), msg
     return 0, ''
 
+def create_tracks_msg():
+    msg = '*Tracks*\n\n{TRACKS}\n\n\n'
+    tracks = Track.select().order_by(Track.artist).order_by(Track.tracknumber)
+    if len(tracks) > 0:
+        tks = []
+        for track in tracks:
+            timestamp = get_datetime(track.timestamp)
+            tks.append(
+                CONFIG['custom_track_entry'].format(
+                    ARTIST = track.artist,
+                    TITLE = track.title,
+                    TRACK_NUMBER = track.tracknumber,
+                    QUALITY = track.quality,
+                    TIME = get_hours_min(timestamp)
+                )
+            )
+        tks_full_text = '\n'.join(tks)
+        msg = msg.format(
+            TRACKS = tks_full_text
+        )
+        return len(tks), msg
+    return 0, ''
+
 def send_tg_message():
     aprint('Preparing the notification for Telegram...', 'NOTIFICATOR')
     tv_n, tv_msg = create_shows_msg()
     mo_n, mo_msg = create_movies_msg()
-    msg = tv_msg + mo_msg
+    tk_n, tk_msg = create_tracks_msg()
+    msg = tv_msg + mo_msg + tk_msg
     if msg == '':
         return
     quiet = False
@@ -89,7 +113,8 @@ def send_tg_message():
     if len(msg) > 4000:
         msg = CONFIG['custom_too_long_message'].format(
             N_TV = tv_n,
-            N_MOVIE = mo_n
+            N_MOVIE = mo_n,
+            N_TRACK = tk_n
             )
     hour = int(datetime.datetime.now(current_tz).hour)
     if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
@@ -103,8 +128,8 @@ def send_tg_message():
         MSG = urllib.parse.quote_plus(msg)
     )
     aprint(
-        'Sending notification to Telegram - No. of TV Series: {} - No. of Movies: {}'.format(
-            tv_n, mo_n
+        'Sending notification to Telegram - No. of TV Series: {} - No. of Movies: {} - No. of Tracks: {}'.format(
+            tv_n, mo_n, tk_n
         ), 'NOTIFICATOR'
     )
     requests.get(TG_URL)
@@ -113,7 +138,8 @@ def send_discord_message():
     aprint('Preparing the notification for Discord...', 'NOTIFICATOR')
     tv_n, tv_msg = create_shows_msg()
     mo_n, mo_msg = create_movies_msg()
-    msg = tv_msg + mo_msg
+    tk_n, tk_msg = create_tracks_msg()
+    msg = tv_msg + mo_msg + tk_msg
     if msg == '':
         return
     if len(msg) < 1:
@@ -122,7 +148,8 @@ def send_discord_message():
     if len(msg) > 2000:
         msg = CONFIG['custom_too_long_message'].format(
             N_TV = tv_n,
-            N_MOVIE = mo_n
+            N_MOVIE = mo_n,
+            N_TRACK = tk_n
             )
     DISCORD_URL = CONFIG['discord_webhook']
     if 'slack' not in DISCORD_URL:
@@ -130,6 +157,11 @@ def send_discord_message():
     cond = {
         'text': msg
     }
+    aprint(
+        'Sending notification to Discord - No. of TV Series: {} - No. of Movies: {} - No. of Tracks: {}'.format(
+            tv_n, mo_n, tk_n
+        ), 'NOTIFICATOR'
+    )
     requests.post(DISCORD_URL, data=cond)
 
 def db_cleanup():
@@ -140,6 +172,7 @@ def db_cleanup():
     for movie in movies:
         deletion = Movie.delete().where(
                 Movie.imdb == movie.imdb,
+                Movie.quality == movie.quality
             )
         deletion.execute()
     aprint('Deleted {} movies.'.format(n_movies), 'NOTIFICATOR')
@@ -156,6 +189,20 @@ def db_cleanup():
             )
         deletion.execute()
     aprint('Deleted {} episodes.'.format(n_episodes), 'NOTIFICATOR')
+
+    # Tracks cleanup
+    aprint('Cleaning up tracks...', 'NOTIFICATOR')
+    tracks = Track.select().order_by(Track.artist).order_by(Track.tracknumber)
+    n_tracks = len(tracks)
+    for track in tracks:
+        deletion = Track.delete().where(
+                Track.artist == track.artist,
+                Track.title == track.title,
+                Track.tracknumber == track.tracknumber,
+                Track.quality == track.quality
+            )
+        deletion.execute()
+    aprint('Deleted {} tracks.'.format(n_tracks), 'NOTIFICATOR')
 
 def send_messages():
     if CONFIG['telegram_bot_token']:
