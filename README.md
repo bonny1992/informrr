@@ -5,9 +5,11 @@
 
 A simple aggregator for notification from Sonarr, Radarr and Lidarr.
 
+(Theme song: **Informer** by Snow - [Youtube Link](https://youtu.be/TSffz_bl6zo?t=15))
+
 What can it do:
 - Configurable pause (in hours)
-- Customizable movie and episode entries
+- Customizable movie, episode and song entries
 - Notification to Telegram
 - Notification to Discord
 
