@@ -1,4 +1,5 @@
 # Informrr
+(name suggested by [u/DaJorsh](https://www.reddit.com/user/DaJorsh/) on Reddit)
 
 [![Build Status](https://travis-ci.com/bonny1992/informrr.svg?branch=master)](https://travis-ci.com/bonny1992/informrr)
 
