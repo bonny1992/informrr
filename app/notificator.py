@@ -23,7 +23,7 @@ while True:
 with open(DATA_PATH + '/config.yml', 'r') as opened:
     CONFIG = yaml.load(opened, Loader=yaml.SafeLoader)
 
-aprint('Starting the notificator...', 'NOTIFICATOR')
+aprint('Starting Informrr notificator...', 'NOTIFICATOR')
 
 current_tz = timezone(CONFIG['timezone'])
 

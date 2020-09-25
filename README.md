@@ -1,9 +1,8 @@
-# Sonarr Radarr Notification Aggregator
-(name suggestions open - [Link to poll on strawpoll.com](https://strawpoll.com/7qdy18a4y))
+# Informrr
 
-[![Build Status](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator.svg?branch=master)](https://travis-ci.com/bonny1992/sonarr-radarr-notification-aggregator)
+[![Build Status](https://travis-ci.com/bonny1992/informrr.svg?branch=master)](https://travis-ci.com/bonny1992/informrr)
 
-A simple aggregator for notification from Sonarr and Radarr.
+A simple aggregator for notification from Sonarr, Radarr and Lidarr.
 
 What can it do:
 - Configurable pause (in hours)
@@ -25,7 +24,7 @@ I mainly chose to create this to be used with Docker.
 
 Made with the wonderful `lsiobase/alpine` as a base image.
 
-You can find the image on Docker Hub [here](https://hub.docker.com/r/bonny1992/sonarr-radarr-notification-aggregator)
+You can find the image on Docker Hub [here](https://hub.docker.com/r/bonny1992/informrr)
 
 1. Here's the `docker run` command needed to start it up:
 
@@ -36,7 +35,7 @@ You can find the image on Docker Hub [here](https://hub.docker.com/r/bonny1992/s
       -e PGID=1000 -e PUID=1000 \
       -p 5445:5445 \
       -v /some/folder/to/store/your/data:/data \
-   bonny1992/sonarr-radarr-notification-aggregator:latest
+   bonny1992/informrr:latest
    ```
 
    At the first run it will create the database and the config needed in the folder `/data` (I suggest you to mount it as a volume in the `docker run` command). Plus, at the very first start, it will generate a random string which you will need to access the "notificator webhook".
@@ -168,7 +167,7 @@ I'm assuming you will use Linux - I used Fedora Remix on Windows' WSL
 
 1. Clone this repository
    ```
-   git clone https://github.com/bonny1992/sonarr-radarr-notification-aggregator.git ~/notificator
+   git clone https://github.com/bonny1992/informrr.git ~/notificator
    ```
 2. Go into the repository folder and in the `/app` folder
    ```

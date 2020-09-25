@@ -1,4 +1,4 @@
-IMAGE := bonny1992/sonarr-radarr-notification-aggregator
+IMAGE := bonny1992/informrr
 $(eval RELEASE = $(shell chmod +x .travis/get_release.sh && .travis/get_release.sh))
 
 echo:

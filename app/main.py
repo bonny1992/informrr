@@ -220,7 +220,7 @@ app.install(CorsPlugin(origins=['*']))
 
 
 if __name__ == '__main__':
-    aprint('Starting server on port 5445...', 'WEBHOOK.MAIN')
+    aprint('Starting Informrr server on port 5445...', 'WEBHOOK.MAIN')
     aprint('Listening on endpoint /{KEY}/sonarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
     aprint('Listening on endpoint /{KEY}/radarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')
     aprint('Listening on endpoint /{KEY}/lidarr'.format(KEY=CONFIG['safe_key']), 'WEBHOOK.MAIN')

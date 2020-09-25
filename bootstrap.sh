@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sudo apt-get update
-sudo apt-get install -y python3-pip python3-dev
+sudo apt-get install -y python3.8-pip python3.8-dev
 
 if ! [ -L /app ]; then
   sudo rm -rf /app
@@ -27,5 +27,5 @@ sudo pip3 install pyngrok
 
 echo "Run these in tmux sessions:"
 echo "** tmux new -d -s ngrok ngrok http 5445 **"
-echo "** tmux new -d -s webhook python3 /app/main.py **"
-echo "** tmux new -d -s notify python3 /app/notificator.py **"
+echo "** tmux new -d -s webhook python3.8 /app/main.py **"
+echo "** tmux new -d -s notify python3.8 /app/notificator.py **"
