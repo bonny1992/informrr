@@ -1,0 +1,14 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: docker
+    image: thegeeklab/drone-docker-buildx
+    privileged: true
+    settings:
+      username:
+        from_secret: DOCKER_USER
+      password:
+        from_secret: DOCKER_PASS
+      repo: bonny1992/informrr
+      tags: latest
