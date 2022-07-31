@@ -12,3 +12,6 @@ steps:
         from_secret: DOCKER_PASS
       repo: bonny1992/informrr
       tags: latest
+      platforms:
+        - linux/amd64
+        - linux/arm64
