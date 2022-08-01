@@ -2,6 +2,7 @@ FROM lsiobase/alpine:3.12
 
 RUN echo "**** install dependencies ****" && \
     apk add --no-cache python3 py3-pip && \
+    mv /usr/bin/lsb_release /usr/bin/lsb_release_back && \
     if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 COPY app/ /app
