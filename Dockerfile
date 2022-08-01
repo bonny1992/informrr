@@ -6,7 +6,7 @@ RUN echo "**** install dependencies ****" && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 COPY app/ /app
 
-RUN pip install -r /app/requirements.txt
+RUN pip3 install -r /app/requirements.txt
 
 
 COPY root/ /
