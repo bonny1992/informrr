@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.11
+FROM lsiobase/alpine:3.12
 
 RUN echo "**** install dependencies ****" && \
     apk add --no-cache python3 py3-pip && \
