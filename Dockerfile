@@ -1,7 +1,7 @@
 FROM lsiobase/alpine:3.11
 
 RUN echo "**** install dependencies ****" && \
-    apk add --no-cache python3 python3-pip
+    apk add --no-cache python3 py3-pip
     
 COPY app/ /app
 
