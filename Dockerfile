@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.11
+FROM --platform=$BUILDPLATFORM lsiobase/alpine:3.11
 
 RUN echo "**** install dependencies ****" && \
     apk add --no-cache python3 && \
