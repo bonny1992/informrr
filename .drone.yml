@@ -7,9 +7,10 @@ steps:
     privileged: true
     settings:
       username:
-        from_secret: DOCKER_USER
+        from_secret: QUAY_USER
       password:
-        from_secret: DOCKER_PASS
+        from_secret: QUAY_PASS
+      registry: quay.io
       repo: bonny1992/informrr
       tags: latest
       platforms:
