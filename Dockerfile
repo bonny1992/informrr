@@ -1,6 +1,6 @@
-LABEL org.opencontainers.image.source https://github.com/bonny1992/informrr
-
 FROM --platform=$BUILDPLATFORM lsiobase/alpine:3.11
+
+LABEL org.opencontainers.image.source https://github.com/bonny1992/informrr
 
 RUN echo "**** install dependencies ****" && \
     apk add --no-cache python3 && \
