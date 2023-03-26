@@ -1,3 +1,5 @@
+LABEL org.opencontainers.image.source https://github.com/bonny1992/informrr
+
 FROM --platform=$BUILDPLATFORM lsiobase/alpine:3.11
 
 RUN echo "**** install dependencies ****" && \
