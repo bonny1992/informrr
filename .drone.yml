@@ -14,7 +14,7 @@ steps:
       tags: latest
       platforms:
         - linux/amd64
-        - linux/arm64/v8
+        - linux/arm64
   - name: docker-to-quay
     image: thegeeklab/drone-docker-buildx:latest
     privileged: true
@@ -28,7 +28,7 @@ steps:
       tags: latest
       platforms:
         - linux/amd64
-        - linux/arm64/v8
+        - linux/arm64
   - name: docker-to-ghcr
     image: thegeeklab/drone-docker-buildx:latest
     privileged: true
@@ -42,5 +42,5 @@ steps:
       tags: latest
       platforms:
         - linux/amd64
-        - linux/arm64/v8
+        - linux/arm64
   
