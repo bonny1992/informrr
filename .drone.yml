@@ -11,7 +11,7 @@ steps:
       password:
         from_secret: QUAY_PASS
       registry: quay.io
-      repo: bonny1992/informrr
+      repo: quay.io/bonny1992/informrr
       tags: latest
       platforms:
         - linux/amd64
