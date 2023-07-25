@@ -11,7 +11,9 @@ steps:
       password:
         from_secret: DOCKER_PASS
       repo: bonny1992/informrr
-      tags: latest
+      tags:
+        - latest
+        - ${DRONE_SOURCE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
       platforms:
         - linux/amd64
         - linux/arm64
@@ -25,7 +27,9 @@ steps:
         from_secret: QUAY_PASS
       registry: quay.io
       repo: quay.io/bonny1992/informrr
-      tags: latest
+      tags:
+        - latest
+        - ${DRONE_SOURCE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
       platforms:
         - linux/amd64
         - linux/arm64
@@ -39,7 +43,9 @@ steps:
         from_secret: GITHUB_TOKEN
       registry: ghcr.io
       repo: ghcr.io/bonny1992/informrr
-      tags: latest
+      tags:
+        - latest
+        - ${DRONE_SOURCE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
       platforms:
         - linux/amd64
         - linux/arm64
