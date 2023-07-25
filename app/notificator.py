@@ -48,8 +48,16 @@ def create_shows_msg():
         msg = msg.format(
             SHOWS = eps_full_text
         )
-        return len(eps), msg
-    return 0, ''
+        return {
+            'number': len(eps),
+            'msg': msg,
+            'type': 'shows'
+        }
+    return {
+        'number': 0,
+        'msg': '',
+        'type': 'shows'
+    }
 
         
 def create_movies_msg():
@@ -72,8 +80,16 @@ def create_movies_msg():
         msg = msg.format(
             MOVIES = mvs_full_text
         )
-        return len(mvs), msg
-    return 0, ''
+        return {
+            'number': len(mvs),
+            'msg': msg,
+            'type': 'movies'
+        }
+    return {
+        'number': 0,
+        'msg': '',
+        'type': 'movies'
+    }
 
 def create_tracks_msg():
     msg = '*Tracks*\n\n{TRACKS}\n\n\n'
@@ -95,74 +111,103 @@ def create_tracks_msg():
         msg = msg.format(
             TRACKS = tks_full_text
         )
-        return len(tks), msg
-    return 0, ''
+        return {
+            'number': len(tks),
+            'msg': msg,
+            'type': 'tracks'
+            }
+    return {
+        'number': 0,
+        'msg': '',
+        'type': 'tracks'
+        }
 
 def send_tg_message():
     aprint('Preparing the notification for Telegram...', 'NOTIFICATOR')
-    tv_n, tv_msg = create_shows_msg()
-    mo_n, mo_msg = create_movies_msg()
-    tk_n, tk_msg = create_tracks_msg()
-    msg = tv_msg + mo_msg + tk_msg
-    if msg == '':
-        return
-    quiet = False
-    if len(msg) < 1:
-        aprint('Nothing to notify')
-        return
-    if len(msg) > 4000:
-        msg = CONFIG['custom_too_long_message'].format(
-            N_TV = tv_n,
-            N_MOVIE = mo_n,
-            N_TRACK = tk_n
+    tv = create_shows_msg()
+    movies = create_movies_msg()
+    tracks = create_tracks_msg()
+    msgs = [
+        tv,
+        movies,
+        tracks
+    ]
+    for msg in msgs:
+        if msg['msg'] == '':
+            return
+        quiet = False
+        if msg['number'] < 1:
+            aprint('Nothing to notify')
+            continue
+        if msg['number'] > 4000:
+            if msg['type'] == 'shows':
+                msg_type = CONFIG['shows_label']
+            if msg['type'] == 'movies':
+                msg_type = CONFIG['movies_label']
+            if msg['type'] == 'tracks':
+                msg_type = CONFIG['tracks_label']
+            msg = CONFIG['custom_too_long_message'].format(
+                TYPE = msg_type,
+                N_IMPORTED = msg['number']
             )
-    hour = int(datetime.datetime.now(current_tz).hour)
-    if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
-        quiet = True
-        msg = CONFIG['custom_quiet_mode_message'] + '\n\n' + msg
-    TG_URL = 'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={TG_CHAT_ID}&disable_web_page_preview=true&parse_mode=Markdown{QUIET}&text={MSG}'
-    TG_URL = TG_URL.format(
-        BOT_TOKEN = CONFIG['telegram_bot_token'],
-        TG_CHAT_ID = CONFIG['telegram_chat_id'],
-        QUIET = '&disable_notification=true' if quiet else '',
-        MSG = urllib.parse.quote_plus(msg)
-    )
-    aprint(
-        'Sending notification to Telegram - No. of TV Series: {} - No. of Movies: {} - No. of Tracks: {}'.format(
-            tv_n, mo_n, tk_n
-        ), 'NOTIFICATOR'
-    )
-    requests.get(TG_URL)
+        hour = int(datetime.datetime.now(current_tz).hour)
+        if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
+            quiet = True
+            msg = CONFIG['custom_quiet_mode_message'] + '\n\n' + msg
+        TG_URL = 'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={TG_CHAT_ID}&disable_web_page_preview=true&parse_mode=Markdown{QUIET}&text={MSG}'
+        TG_URL = TG_URL.format(
+            BOT_TOKEN = CONFIG['telegram_bot_token'],
+            TG_CHAT_ID = CONFIG['telegram_chat_id'],
+            QUIET = '&disable_notification=true' if quiet else '',
+            MSG = urllib.parse.quote_plus(msg)
+        )
+        aprint(
+            'Sending notification to Telegram - No. of {}: {}'.format(
+                msg['type'], msg['number']
+            ), 'NOTIFICATOR'
+        )
+        requests.get(TG_URL)
 
 def send_discord_message():
     aprint('Preparing the notification for Discord...', 'NOTIFICATOR')
-    tv_n, tv_msg = create_shows_msg()
-    mo_n, mo_msg = create_movies_msg()
-    tk_n, tk_msg = create_tracks_msg()
-    msg = tv_msg + mo_msg + tk_msg
-    if msg == '':
-        return
-    if len(msg) < 1:
-        aprint('Nothing to notify')
-        return
-    if len(msg) > 2000:
-        msg = CONFIG['custom_too_long_message'].format(
-            N_TV = tv_n,
-            N_MOVIE = mo_n,
-            N_TRACK = tk_n
+    tv = create_shows_msg()
+    movies = create_movies_msg()
+    tracks = create_tracks_msg()
+    msgs = [
+        tv,
+        movies,
+        tracks
+    ]
+    for msg in msgs:
+        if msg['msg'] == '':
+            return
+        quiet = False
+        if msg['number'] < 1:
+            aprint('Nothing to notify')
+            continue
+        if msg['number'] > 2000:
+            if msg['type'] == 'shows':
+                msg_type = CONFIG['shows_label']
+            if msg['type'] == 'movies':
+                msg_type = CONFIG['movies_label']
+            if msg['type'] == 'tracks':
+                msg_type = CONFIG['tracks_label']
+            msg = CONFIG['custom_too_long_message'].format(
+                TYPE = msg_type,
+                N_IMPORTED = msg['number']
             )
-    DISCORD_URL = CONFIG['discord_webhook']
-    if 'slack' not in DISCORD_URL:
-        DISCORD_URL = DISCORD_URL + '/slack'
-    cond = {
-        'text': msg
-    }
-    aprint(
-        'Sending notification to Discord - No. of TV Series: {} - No. of Movies: {} - No. of Tracks: {}'.format(
-            tv_n, mo_n, tk_n
-        ), 'NOTIFICATOR'
-    )
-    requests.post(DISCORD_URL, data=cond)
+        DISCORD_URL = CONFIG['discord_webhook']
+        if 'slack' not in DISCORD_URL:
+            DISCORD_URL = DISCORD_URL + '/slack'
+        cond = {
+            'text': msg
+        }
+        aprint(
+            'Sending notification to Discord - No. of {}: {}'.format(
+                msg['type'], msg['number']
+            ), 'NOTIFICATOR'
+        )
+        requests.post(DISCORD_URL, data=cond)
 
 def db_cleanup():
     # Movie cleanup
