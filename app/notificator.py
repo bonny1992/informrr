@@ -221,7 +221,7 @@ def db_cleanup():
                 Movie.quality == movie.quality
             )
         deletion.execute()
-    aprint('Deleted {} movies.'.format(n_movies), 'NOTIFICATOR')
+    aprint('Deleted {} movies.'.format(n_movies), 'DB.CLEAN')
 
     # TV cleanup
     aprint('Cleaning up tv shows...', 'NOTIFICATOR')
@@ -234,7 +234,7 @@ def db_cleanup():
                 Show.episode == episode.episode
             )
         deletion.execute()
-    aprint('Deleted {} episodes.'.format(n_episodes), 'NOTIFICATOR')
+    aprint('Deleted {} episodes.'.format(n_episodes), 'DB.CLEAN')
 
     # Tracks cleanup
     aprint('Cleaning up tracks...', 'NOTIFICATOR')
@@ -248,7 +248,7 @@ def db_cleanup():
                 Track.quality == track.quality
             )
         deletion.execute()
-    aprint('Deleted {} tracks.'.format(n_tracks), 'NOTIFICATOR')
+    aprint('Deleted {} tracks.'.format(n_tracks), 'DB.CLEAN')
 
 def send_messages():
     if CONFIG['telegram_bot_token']:
@@ -260,7 +260,7 @@ def send_messages():
     try:
         db_cleanup()
     except:
-        aprint('There was an error cleaning the database. Please contact support.', 'NOTIFICATOR')
+        aprint('There was an error cleaning the database. Please contact support.', 'DB.CLEAN')
     
 
 
