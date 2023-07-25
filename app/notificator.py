@@ -151,15 +151,16 @@ def send_tg_message():
                 N_IMPORTED = msg['number']
             )
         hour = int(datetime.datetime.now(current_tz).hour)
+        to_be_sent = msg['msg']
         if hour >= int(CONFIG['start_quiet']) or hour <= int(CONFIG['end_quiet']):
             quiet = True
-            msg = CONFIG['custom_quiet_mode_message'] + '\n\n' + msg
+            to_be_sent = CONFIG['custom_quiet_mode_message'] + '\n\n' + to_be_sent
         TG_URL = 'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={TG_CHAT_ID}&disable_web_page_preview=true&parse_mode=Markdown{QUIET}&text={MSG}'
         TG_URL = TG_URL.format(
             BOT_TOKEN = CONFIG['telegram_bot_token'],
             TG_CHAT_ID = CONFIG['telegram_chat_id'],
             QUIET = '&disable_notification=true' if quiet else '',
-            MSG = urllib.parse.quote_plus(msg)
+            MSG = urllib.parse.quote_plus(to_be_sent)
         )
         aprint(
             'Sending notification to Telegram - No. of {}: {}'.format(
@@ -200,7 +201,7 @@ def send_discord_message():
         if 'slack' not in DISCORD_URL:
             DISCORD_URL = DISCORD_URL + '/slack'
         cond = {
-            'text': msg
+            'text': msg['msg']
         }
         aprint(
             'Sending notification to Discord - No. of {}: {}'.format(
