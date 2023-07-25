@@ -13,7 +13,7 @@ steps:
       repo: bonny1992/informrr
       tags:
         - latest
-        - ${DRONE_SOURCE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - ${DRONE_COMMIT_SHA:0:7}
       platforms:
         - linux/amd64
         - linux/arm64
@@ -29,7 +29,7 @@ steps:
       repo: quay.io/bonny1992/informrr
       tags:
         - latest
-        - ${DRONE_SOURCE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - ${DRONE_COMMIT_SHA:0:7}
       platforms:
         - linux/amd64
         - linux/arm64
@@ -45,7 +45,7 @@ steps:
       repo: ghcr.io/bonny1992/informrr
       tags:
         - latest
-        - ${DRONE_SOURCE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - ${DRONE_COMMIT_SHA:0:7}
       platforms:
         - linux/amd64
         - linux/arm64
