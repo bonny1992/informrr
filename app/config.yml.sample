@@ -11,6 +11,9 @@ custom_quiet_mode_message: '💤 *Modalità notte* 💤' #Custom header for mess
 custom_tv_entry: '{SERIES} - {SEASON}x{EPISODE} - {TITLE} | {QUALITY} alle {TIME}' #Custom entry for TV episodes, available placeholders `SERIES` (Series name) `SEASON` (Season number - format 01) `EPISODE` (Episode number - Format 01) `TITLE` (Title of the episode) `QUALITY` (Quality of the episode downloaded) `TIME` (Time of the received notification)
 custom_movie_entry: '{TITLE} ({YEAR}) | {QUALITY} | {IMDB_LINK} alle {TIME}' #Custom entry for Movies, available placeholders `TITLE` (Movie title) `YEAR` (Movie year) `QUALITY` (Movie quality) `IMDB_LINK` (Movie IMDB link) `TIME` (Time of the received notification)
 custom_track_entry: '{ARTIST} - {TRACK_NUMBER} - {TITLE} | {QUALITY} alle {TIME}' #Custom entry for Tracks, available placeholders `ARTIST` (Musician) `TITLE` (Track title) `TRACK_NUMBER` (Track number) `QUALITY` (Trac quality) `TIME` (Time of the received notification)
-custom_too_long_message: 'Troppi caratteri.\nN. episodi Serie TV importati: {N_TV}\nN. film importati: {N_MOVIE}\nN. tracce importate: {N_TRACK}' #Custom message for too many characters (MAX 4000), available placeholders `N_TV` (Number of episodes downloaded) `N_MOVIE` (Number of movies downloaded) `N_TRACK` (Number of tracks downloaded)
+custom_too_long_message: 'Troppi caratteri.\nN. {TYPE} importati: {N_IMPORTED}.' #Custom message for too many characters (MAX 4000), available placeholders `N_TV` (Number of episodes downloaded) `N_MOVIE` (Number of movies downloaded) `N_TRACK` (Number of tracks downloaded)
+shows_label: 'episodi'
+movies_label: 'film'
+tracks_label: 'tracce'
 enable_telegram: False #Enable telegram notifications
 enable_discord: False #Enable discord notifications
